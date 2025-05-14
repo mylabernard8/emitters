@@ -3,7 +3,6 @@ let G;
 let particleImg;
 
 function preload() {
-  // Load an image for ImageParticle
   particleImg = loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Yellow_star.svg/32px-Yellow_star.svg.png');
 }
 
@@ -32,17 +31,27 @@ class Emitter {
     this.y = y;
     this.particles = [];
 
-    let initialCount = int(random(10, 40)); // Random number of starting particles
+
+    let initialCount = int(random(10, 40));
+    this.theme = random(['circle', 'square', 'image', 'mixed']); // Step 5: Theme type
+    this.emitInterval = int(random(3, 10)); // Step 4: Random frame delay between emissions
+    this.frameCounter = 0;
+
     for (let i = 0; i < initialCount; i++) {
-      this.particles.push(this.createRandomParticle(this.x, this.y));
+      this.particles.push(this.createThemedParticle(this.x, this.y));
     }
   }
 
-  createRandomParticle(x, y) {
+  createThemedParticle(x, y) {
+    if (this.theme === 'square') return new SquareParticle(x, y);
+    if (this.theme === 'image') return new ImageParticle(x, y);
+    if (this.theme === 'circle') return new Particle(x, y);
+
+
     let type = random(['circle', 'square', 'image']);
     if (type === 'square') return new SquareParticle(x, y);
-    else if (type === 'image') return new ImageParticle(x, y);
-    else return new Particle(x, y);
+    if (type === 'image') return new ImageParticle(x, y);
+    return new Particle(x, y);
   }
 
   update() {
@@ -53,9 +62,11 @@ class Emitter {
       p.update();
       p.draw();
     }
-
-    // Spawn new particle each frame
-    this.particles.push(this.createRandomParticle(this.x, this.y));
+    
+    this.frameCounter++;
+    if (this.frameCounter % this.emitInterval === 0) {
+      this.particles.push(this.createThemedParticle(this.x, this.y));
+    }
   }
 }
 
