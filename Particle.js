@@ -1,11 +1,11 @@
 class Particle {
   constructor(x, y) {
     this.position = createVector(x, y);
-    this.velocity = p5.Vector.random2D();
-    this.acceleration = p5.Vector.random2D();
-    this.r = 10;
+    this.velocity = p5.Vector.random2D().mult(random(0.5, 2)); // variable direction/magnitude
+    this.acceleration = createVector(0, 0); // set to zero initially
+    this.r = random(5, 15); // variable size
     this.lifespan = 255;
-    this.color = color(random(255), random(255), random(255)); // Random color
+    this.color = color(random(255), random(255), random(255)); // random color
   }
 
   update() {
