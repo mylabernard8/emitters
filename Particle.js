@@ -1,11 +1,11 @@
 class Particle {
   constructor(x, y) {
     this.position = createVector(x, y);
-    this.velocity = p5.Vector.random2D().mult(random(0.5, 2)); // variable direction/magnitude
-    this.acceleration = createVector(0, 0); // set to zero initially
-    this.r = random(5, 15); // variable size
+    this.velocity = p5.Vector.random2D().mult(random(0.5, 2)); // Random speed/direction
+    this.acceleration = createVector(0, 0);
+    this.r = random(5, 15); // Random size
     this.lifespan = 255;
-    this.color = color(random(255), random(255), random(255)); // random color
+    this.color = color(random(255), random(255), random(255)); // Random color
   }
 
   update() {
@@ -20,20 +20,27 @@ class Particle {
   }
 
   draw() {
-    fill(
-      this.color.levels[0],
-      this.color.levels[1],
-      this.color.levels[2],
-      this.lifespan
-    );
+    fill(this.color.levels[0], this.color.levels[1], this.color.levels[2], this.lifespan);
     circle(this.position.x, this.position.y, this.r);
   }
 
   applyForce(f) {
     this.acceleration.add(f);
   }
+}
 
-  static createStandardParticleAt(x, y) {
-    return new Particle(x, y);
+class SquareParticle extends Particle {
+  draw() {
+    fill(50, 200, 255, this.lifespan); // Blueish color
+    rectMode(CENTER);
+    rect(this.position.x, this.position.y, this.r, this.r);
+  }
+}
+
+class ImageParticle extends Particle {
+  draw() {
+    tint(255, this.lifespan); // Fade image over time
+    imageMode(CENTER);
+    image(particleImg, this.position.x, this.position.y, this.r * 2, this.r * 2);
   }
 }
