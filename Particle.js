@@ -1,11 +1,11 @@
 class Particle {
   constructor(x, y) {
     this.position = createVector(x, y);
-    this.velocity = p5.Vector.random2D().mult(random(0.5, 2)); // Random motion
+    this.velocity = p5.Vector.random2D().mult(random(0.5, 2));
     this.acceleration = createVector(0, 0);
-    this.r = random(5, 15); // Random size
+    this.r = random(5, 15);
     this.lifespan = 255;
-    this.color = color(random(255), random(255), random(255)); // Random color
+    this.color = color(random(255), random(255), random(255));
   }
 
   update() {
@@ -31,7 +31,7 @@ class Particle {
 
 class SquareParticle extends Particle {
   draw() {
-    fill(50, 200, 255, this.lifespan); // Light blue color
+    fill(50, 200, 255, this.lifespan);
     rectMode(CENTER);
     rect(this.position.x, this.position.y, this.r, this.r);
   }
@@ -44,3 +44,4 @@ class ImageParticle extends Particle {
     image(particleImg, this.position.x, this.position.y, this.r * 2, this.r * 2);
   }
 }
+
